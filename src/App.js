@@ -1,6 +1,6 @@
 import './App.css';
 import { motion } from 'framer-motion';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import ServerDetail from './components/ServerDetail';
 
 
@@ -30,13 +30,13 @@ const servers = [
   { id: 103, name: "PL1HSVR3", ipAddress: "172.21.80.203", location: "Data Center", status: "online", cpu: "1", memory: "65GB", drives: { C: "35 / 278 GB", D: "87 / 1720 GB", E: "233 / 1720 GB", F: "—" } },
   { id: 104, name: "PL1HSVR4", ipAddress: "172.21.80.204", location: "Data Center", status: "backup", cpu: "1", memory: "65GB", drives: { C: "35 / 278 GB", D: "256 / 476 GB", E: "—", F: "—" } },
 
-  { id: 111, name: "PL1PSVR1", ipAddress: "172.21.80.81", location: "Data Center", status: "online", cpu:"1" , memory:"65GB" , drives:{ C:"220 / 278 GB" , D:"141 / 278 GB" , E:"123 / 278 GB" , F:"188 / 278 GB" } },
+  { id: 111, name: "PL1PSVR1", ipAddress: "172.21.80.81", location: "Data Center", status: "online", cpu: "1", memory: "65GB", drives: { C: "220 / 278 GB", D: "141 / 278 GB", E: "123 / 278 GB", F: "188 / 278 GB" } },
   { id: 112, name: "PL1PSVR2", ipAddress: "172.21.80.82", location: "Data Center", status: "backup", cpu: "1", memory: "65GB", drives: { C: "94 / 278 GB", D: "79 / 278 GB", E: "—", F: "—" } },
   { id: 113, name: "PL1PSVR3", ipAddress: "172.21.80.84", location: "Data Center", status: "online", cpu: "1", memory: "65GB", drives: { C: "94 / 278 GB", D: "163 / 278 GB", E: "—", F: "—" } },
-  { id: 114, name: "PL1PSVR4", ipAddress: "172.21.80.85", location: "Data Center", status: "backup", cpu: "1", memory: "65GB", drives: { C: "130 / 278 GB", D: "165 / 278 GB", E: "143 / 278 GB", F:"—" } },
+  { id: 114, name: "PL1PSVR4", ipAddress: "172.21.80.85", location: "Data Center", status: "backup", cpu: "1", memory: "65GB", drives: { C: "130 / 278 GB", D: "165 / 278 GB", E: "143 / 278 GB", F: "—" } },
 
-  { id: 121, name: "WIN-LC7PL3SG9VN", ipAddress: "172.21.80.87", location: "Data Center", status: "online", cpu:"1" , memory:"12GB" , drives:{ C:"83 / 349 GB" , D:"8 / 107 GB" , E:"242 / 496 GB" , F:"33 / 371 GB" } },
-  { id: 122, name: "PM-MACC-MCMI", ipAddress: "172.21.80.88", location: "Data Center", status:"online" , cpu:"1" , memory:"10GB" , drives:{ C:"22 / 305 GB" , D:"10 / 305 GB" , E:"—" , F:"—" } }
+  { id: 121, name: "WIN-LC7PL3SG9VN", ipAddress: "172.21.80.87", location: "Data Center", status: "online", cpu: "1", memory: "12GB", drives: { C: "83 / 349 GB", D: "8 / 107 GB", E: "242 / 496 GB", F: "33 / 371 GB" } },
+  { id: 122, name: "PM-MACC-MCMI", ipAddress: "172.21.80.88", location: "Data Center", status: "online", cpu: "1", memory: "10GB", drives: { C: "22 / 305 GB", D: "10 / 305 GB", E: "—", F: "—" } }
 ];
 
 function AppContent() {
@@ -73,7 +73,7 @@ function AppContent() {
             {/* Navbar */}
             <nav className="navbar">
               <div className="navbar-container">
-                <a href="#" className="nav-logo">
+                <a href="/" className="nav-logo">
                   <div className="nav-logo-photo">
                     🖥️ Server Management
                   </div>

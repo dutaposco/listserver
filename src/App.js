@@ -1,27 +1,27 @@
 import './App.css';
 import { motion } from 'framer-motion';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import ServerDetail from './components/ServerDetail';
 
 
 const servers = [
   { id: 1, name: "KP1HMI39", ipAddress: "172.21.86.39", location: "Computer Room", status: "online", hmiVersion: "91124", alyacPatched: true, hmiUpdated: true, timesyncStatus: "synced" },
   { id: 2, name: "KP1HMI131", ipAddress: "172.21.86.131", location: "Computer Room", status: "online", hmiVersion: "91124", alyacPatched: true, hmiUpdated: true, timesyncStatus: "synced" },
-  { id: 3, name: "KP1HMI45", ipAddress: "172.21.86.45", location: "CB EER", status: "online", hmiVersion: "91124", alyacPatched: true, hmiUpdated: false, timesyncStatus: "synced" },
+  { id: 3, name: "KP1HMI45", ipAddress: "172.21.86.45", location: "CB EER", status: "online", hmiVersion: "91124", alyacPatched: true, hmiUpdated: true, timesyncStatus: "synced" },
   { id: 4, name: "KP1HMI150", ipAddress: "172.21.86.150", location: "CB P/P", status: "online", hmiVersion: "91124", alyacPatched: true, hmiUpdated: true, timesyncStatus: "synced" },
   { id: 5, name: "KP1HMI47", ipAddress: "172.21.86.47", location: "CS P/P", status: "online", hmiVersion: "91124", alyacPatched: true, hmiUpdated: true, timesyncStatus: "synced" },
   { id: 6, name: "KP1HMI48", ipAddress: "172.21.86.48", location: "CS P/P", status: "online", hmiVersion: "91124", alyacPatched: true, hmiUpdated: true, timesyncStatus: "synced" },
-  { id: 7, name: "KP1HMI50", ipAddress: "172.21.86.50", location: "DSS P/P", status: "online", hmiVersion: "91124", alyacPatched: false, hmiUpdated: false, timesyncStatus: "synced" },
+  { id: 7, name: "KP1HMI50", ipAddress: "172.21.86.50", location: "DSS P/P", status: "online", hmiVersion: "91124", alyacPatched: true, hmiUpdated: true, timesyncStatus: "synced" },
   { id: 8, name: "KP1HMI65", ipAddress: "172.21.86.65", location: "DSS P/P", status: "online", hmiVersion: "91124", alyacPatched: true, hmiUpdated: true, timesyncStatus: "synced" },
   { id: 9, name: "KP1HMI71", ipAddress: "172.21.86.71", location: "DSS P/P", status: "online", hmiVersion: "91124", alyacPatched: true, hmiUpdated: true, timesyncStatus: "synced" },
-  { id: 10, name: "KP1HMI44", ipAddress: "172.21.86.44", location: "DS P/P", status: "online", hmiVersion: "91124", alyacPatched: true, hmiUpdated: false, timesyncStatus: "synced" },
+  { id: 10, name: "KP1HMI44", ipAddress: "172.21.86.44", location: "DS P/P", status: "online", hmiVersion: "91124", alyacPatched: true, hmiUpdated: true, timesyncStatus: "synced" },
   { id: 11, name: "KP1HMI51", ipAddress: "172.21.86.51", location: "SHEARING EER", status: "online", hmiVersion: "91124", alyacPatched: true, hmiUpdated: true, timesyncStatus: "synced" },
   { id: 12, name: "KP1HMI144", ipAddress: "172.21.86.144", location: "SHEARING OFFICE", status: "online", hmiVersion: "91124", alyacPatched: true, hmiUpdated: true, timesyncStatus: "synced" },
   { id: 13, name: "KP1HMI56", ipAddress: "172.21.86.56", location: "MARKING P/P", status: "online", hmiVersion: "91124", alyacPatched: true, hmiUpdated: true, timesyncStatus: "synced" },
   { id: 14, name: "KP1HMI52", ipAddress: "172.21.86.52", location: "TOP INS P/P", status: "online", hmiVersion: "91124", alyacPatched: true, hmiUpdated: true, timesyncStatus: "synced" },
-  { id: 15, name: "KP1HMI53", ipAddress: "172.21.86.53", location: "OUT INS P/P", status: "online", hmiVersion: "-", alyacPatched: true, hmiUpdated: true, timesyncStatus: "synced" },
-  { id: 16, name: "KP1HMI54", ipAddress: "172.21.86.54", location: "BOT INS P/P", status: "online", hmiVersion: "91124", alyacPatched: true, hmiUpdated: false, timesyncStatus: "synced" },
-  { id: 17, name: "KP1HMI57", ipAddress: "172.21.86.57", location: "T1 P/P", status: "online", hmiVersion: "91124", alyacPatched: true, hmiUpdated: true, timesyncStatus: "synced" },
+  { id: 15, name: "KP1HMI53", ipAddress: "172.21.86.53", location: "OUT INS P/P", status: "online", hmiVersion: "-", alyacPatched: true, hmiUpdated:true, timesyncStatus:"synced"},
+  { id : 16 , name : 'KP1HMI54', ipAddress : '172.21.86.54', location : 'BOT INS P/P', status : 'online', hmiVersion : '90000', alyacPatched : true , hmiUpdated :true , timesyncStatus : 'synced'},
+  { id : 17 , name : 'KP1HMI57', ipAddress : '172.21.86.57', location : 'Tl P/P', status : 'online', hmiVersion : '90000', alyacPatched : true , hmiUpdated:true , timesyncStatus : 'synced'},
   { id: 18, name: "KP1HMI58", ipAddress: "172.21.86.58", location: "CL P/P", status: "online", hmiVersion: "91124", alyacPatched: true, hmiUpdated: true, timesyncStatus: "synced" },
 
   // PL1 servers (172.21.80.x)
@@ -42,6 +42,15 @@ const servers = [
 function AppContent() {
   const [selectedServer, setSelectedServer] = useState(null);
   const [searchQuery, setSearchQuery] = useState('');
+  const [isMobile, setIsMobile] = useState(typeof window !== 'undefined' ? window.innerWidth < 768 : false);
+
+  useEffect(() => {
+    function handleResize() {
+      setIsMobile(window.innerWidth < 768);
+    }
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   // Function to get status badge color
   const getStatusColor = (status) => {
@@ -73,11 +82,6 @@ function AppContent() {
             {/* Navbar */}
             <nav className="navbar">
               <div className="navbar-container">
-                <a href="/" className="nav-logo">
-                  <div className="nav-logo-photo">
-                    🖥️ Server Management
-                  </div>
-                </a>
                 <div className="nav-right" style={{ marginLeft: 'auto' }}>
                   <div className="search-container">
                     <input
@@ -155,160 +159,206 @@ function AppContent() {
                 </p>
               </motion.div>
 
-              {/* Servers Table */}
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: 0.1 }}
-                style={{
-                  overflowX: 'auto',
-                  borderRadius: '12px',
-                  border: '2px solid rgba(0, 234, 255, 0.3)',
-                  background: 'rgba(255, 255, 255, 0.02)',
-                  backdropFilter: 'blur(10px)'
-                }}
-              >
-                <table style={{
-                  width: '100%',
-                  borderCollapse: 'collapse',
-                  fontSize: '0.95rem'
-                }}>
-                  <thead>
-                    <tr style={{
-                      borderBottom: '2px solid rgba(0, 234, 255, 0.2)',
-                      backgroundColor: 'rgba(0, 234, 255, 0.05)'
-                    }}>
-                      <th style={{
-                        padding: '1.2rem',
-                        textAlign: 'left',
-                        fontWeight: '600',
-                        color: '#00eaff',
-                        textTransform: 'uppercase',
-                        fontSize: '0.85rem',
-                        letterSpacing: '1px'
-                      }}>Status</th>
-                      <th style={{
-                        padding: '1.2rem',
-                        textAlign: 'left',
-                        fontWeight: '600',
-                        color: '#00eaff',
-                        textTransform: 'uppercase',
-                        fontSize: '0.85rem',
-                        letterSpacing: '1px'
-                      }}>PC Name</th>
-                      <th style={{
-                        padding: '1.2rem',
-                        textAlign: 'left',
-                        fontWeight: '600',
-                        color: '#00eaff',
-                        textTransform: 'uppercase',
-                        fontSize: '0.85rem',
-                        letterSpacing: '1px'
-                      }}>IP Address</th>
-                      <th style={{
-                        padding: '1.2rem',
-                        textAlign: 'left',
-                        fontWeight: '600',
-                        color: '#00eaff',
-                        textTransform: 'uppercase',
-                        fontSize: '0.85rem',
-                        letterSpacing: '1px'
-                      }}>Location</th>
-                      <th style={{
-                        padding: '1.2rem',
-                        textAlign: 'center',
-                        fontWeight: '600',
-                        color: '#00eaff',
-                        textTransform: 'uppercase',
-                        fontSize: '0.85rem',
-                        letterSpacing: '1px'
-                      }}>Action</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {filteredServers.length === 0 && (
-                      <tr>
-                        <td colSpan="5" style={{
-                          padding: '2rem',
+              {/* Servers Table / Mobile List */}
+              {isMobile ? (
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '0.8rem' }}>
+                  {shearingServers.length === 0 && otherServers.length === 0 && (
+                    <div style={{ padding: '1rem', textAlign: 'center', color: 'rgba(255,255,255,0.6)' }}>No servers found matching "{searchQuery}"</div>
+                  )}
+
+                  {shearingServers.map((server) => (
+                    <div key={server.id} style={{ padding: '0.9rem', borderRadius: '8px', border: '1px solid rgba(0,234,255,0.12)', background: 'rgba(255,255,255,0.02)', display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+                      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                        <div>
+                          <div style={{ fontWeight: 700, fontSize: '1rem' }}>{server.name}</div>
+                          <div style={{ color: 'rgba(255,255,255,0.6)', fontSize: '0.85rem' }}>{server.ipAddress} • {server.location}</div>
+                        </div>
+                        <div style={{ textAlign: 'right' }}>
+                          <div style={{ display: 'inline-block', padding: '0.25rem 0.5rem', borderRadius: '6px', backgroundColor: getStatusColor(server.status) + '22', color: getStatusColor(server.status), fontWeight: '700', fontSize: '0.8rem' }}>{server.status === 'online' ? 'ON' : 'OFF'}</div>
+                        </div>
+                      </div>
+                      <div style={{ display: 'flex', gap: '0.5rem', justifyContent: 'flex-end' }}>
+                        <button onClick={() => setSelectedServer(server)} style={{ padding: '0.45rem 0.8rem', backgroundColor: 'rgba(0,234,255,0.12)', border: '1px solid rgba(0,234,255,0.2)', borderRadius: '6px', color: '#00eaff', fontWeight: 700 }}>View</button>
+                      </div>
+                    </div>
+                  ))}
+
+                  {otherServers.length > 0 && (
+                    <div style={{ margin: '0.6rem 0', color: 'rgba(255,255,255,0.7)', fontWeight: 700 }}>PL1 / Other Servers</div>
+                  )}
+
+                  {otherServers.map((server) => (
+                    <div key={server.id} style={{ padding: '0.9rem', borderRadius: '8px', border: '1px solid rgba(0,234,255,0.12)', background: 'rgba(255,255,255,0.02)', display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+                      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                        <div>
+                          <div style={{ fontWeight: 700, fontSize: '1rem' }}>{server.name}</div>
+                          <div style={{ color: 'rgba(255,255,255,0.6)', fontSize: '0.85rem' }}>{server.ipAddress} • {server.location}</div>
+                        </div>
+                        <div style={{ textAlign: 'right' }}>
+                          <div style={{ display: 'inline-block', padding: '0.25rem 0.5rem', borderRadius: '6px', backgroundColor: getStatusColor(server.status) + '22', color: getStatusColor(server.status), fontWeight: '700', fontSize: '0.8rem' }}>{server.status === 'online' ? 'ON' : 'OFF'}</div>
+                        </div>
+                      </div>
+                      <div style={{ display: 'flex', gap: '0.5rem', justifyContent: 'flex-end' }}>
+                        <button onClick={() => setSelectedServer(server)} style={{ padding: '0.45rem 0.8rem', backgroundColor: 'rgba(0,234,255,0.12)', border: '1px solid rgba(0,234,255,0.2)', borderRadius: '6px', color: '#00eaff', fontWeight: 700 }}>View</button>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              ) : (
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.6, delay: 0.1 }}
+                  style={{
+                    overflowX: 'auto',
+                    borderRadius: '12px',
+                    border: '2px solid rgba(0, 234, 255, 0.3)',
+                    background: 'rgba(255, 255, 255, 0.02)',
+                    backdropFilter: 'blur(10px)'
+                  }}
+                >
+                  <table style={{
+                    width: '100%',
+                    borderCollapse: 'collapse',
+                    fontSize: '0.95rem'
+                  }}>
+                    <thead>
+                      <tr style={{
+                        borderBottom: '2px solid rgba(0, 234, 255, 0.2)',
+                        backgroundColor: 'rgba(0, 234, 255, 0.05)'
+                      }}>
+                        <th style={{
+                          padding: '1.2rem',
+                          textAlign: 'left',
+                          fontWeight: '600',
+                          color: '#00eaff',
+                          textTransform: 'uppercase',
+                          fontSize: '0.85rem',
+                          letterSpacing: '1px'
+                        }}>Status</th>
+                        <th style={{
+                          padding: '1.2rem',
+                          textAlign: 'left',
+                          fontWeight: '600',
+                          color: '#00eaff',
+                          textTransform: 'uppercase',
+                          fontSize: '0.85rem',
+                          letterSpacing: '1px'
+                        }}>PC Name</th>
+                        <th style={{
+                          padding: '1.2rem',
+                          textAlign: 'left',
+                          fontWeight: '600',
+                          color: '#00eaff',
+                          textTransform: 'uppercase',
+                          fontSize: '0.85rem',
+                          letterSpacing: '1px'
+                        }}>IP Address</th>
+                        <th style={{
+                          padding: '1.2rem',
+                          textAlign: 'left',
+                          fontWeight: '600',
+                          color: '#00eaff',
+                          textTransform: 'uppercase',
+                          fontSize: '0.85rem',
+                          letterSpacing: '1px'
+                        }}>Location</th>
+                        <th style={{
+                          padding: '1.2rem',
                           textAlign: 'center',
-                          color: 'rgba(255, 255, 255, 0.5)'
-                        }}>
-                          No servers found matching "{searchQuery}"
-                        </td>
+                          fontWeight: '600',
+                          color: '#00eaff',
+                          textTransform: 'uppercase',
+                          fontSize: '0.85rem',
+                          letterSpacing: '1px'
+                        }}>Action</th>
                       </tr>
-                    )}
+                    </thead>
+                    <tbody>
+                      {filteredServers.length === 0 && (
+                        <tr>
+                          <td colSpan="5" style={{
+                            padding: '2rem',
+                            textAlign: 'center',
+                            color: 'rgba(255, 255, 255, 0.5)'
+                          }}>
+                            No servers found matching "{searchQuery}"
+                          </td>
+                        </tr>
+                      )}
 
-                    {/* Shearing Line servers (.86) */}
-                    {shearingServers.map((server, index) => (
-                      <motion.tr
-                        key={server.id}
-                        initial={{ opacity: 0, x: -20 }}
-                        animate={{ opacity: 1, x: 0 }}
-                        transition={{ delay: index * 0.04 }}
-                        style={{
-                          borderBottom: '1px solid rgba(0, 234, 255, 0.1)',
-                          transition: 'all 0.3s ease',
-                          backgroundColor: 'transparent'
-                        }}
-                        onMouseEnter={(e) => { e.currentTarget.style.backgroundColor = 'rgba(0, 234, 255, 0.08)'; }}
-                        onMouseLeave={(e) => { e.currentTarget.style.backgroundColor = 'transparent'; }}
-                      >
-                        <td style={{ padding: '1.2rem', fontWeight: '500' }}>
-                          <span style={{ display: 'inline-block', padding: '0.3rem 0.8rem', borderRadius: '6px', backgroundColor: getStatusColor(server.status) + '22', color: getStatusColor(server.status), fontSize: '0.8rem', fontWeight: 'bold', textTransform: 'uppercase', border: `1px solid ${getStatusColor(server.status)}55` }}>
-                            {server.status === 'online' ? '🟢 ONLINE' : '🔴 OFFLINE'}
-                          </span>
-                        </td>
-                        <td style={{ padding: '1.2rem', fontWeight: '600', color: '#fff' }}>{server.name}</td>
-                        <td style={{ padding: '1.2rem', color: '#00eaff', fontFamily: 'monospace', fontSize: '0.9rem' }}>{server.ipAddress}</td>
-                        <td style={{ padding: '1.2rem', color: 'rgba(255, 255, 255, 0.8)' }}>{server.location}</td>
-                        <td style={{ padding: '1.2rem', textAlign: 'center' }}>
-                          <button onClick={() => setSelectedServer(server)} style={{ padding: '0.5rem 1rem', backgroundColor: 'rgba(0, 234, 255, 0.2)', border: '1px solid #00eaff', borderRadius: '6px', color: '#00eaff', fontWeight: '600', cursor: 'pointer', fontSize: '0.85rem', transition: 'all 0.3s ease' }} onMouseEnter={(e) => { e.currentTarget.style.backgroundColor = 'rgba(0, 234, 255, 0.4)'; e.currentTarget.style.transform = 'translateY(-2px)'; }} onMouseLeave={(e) => { e.currentTarget.style.backgroundColor = 'rgba(0, 234, 255, 0.2)'; e.currentTarget.style.transform = 'translateY(0)'; }}>View Details</button>
-                        </td>
-                      </motion.tr>
-                    ))}
+                      {/* Shearing Line servers (.86) */}
+                      {shearingServers.map((server, index) => (
+                        <motion.tr
+                          key={server.id}
+                          initial={{ opacity: 0, x: -20 }}
+                          animate={{ opacity: 1, x: 0 }}
+                          transition={{ delay: index * 0.04 }}
+                          style={{
+                            borderBottom: '1px solid rgba(0, 234, 255, 0.1)',
+                            transition: 'all 0.3s ease',
+                            backgroundColor: 'transparent'
+                          }}
+                          onMouseEnter={(e) => { e.currentTarget.style.backgroundColor = 'rgba(0, 234, 255, 0.08)'; }}
+                          onMouseLeave={(e) => { e.currentTarget.style.backgroundColor = 'transparent'; }}
+                        >
+                          <td style={{ padding: '1.2rem', fontWeight: '500' }}>
+                            <span style={{ display: 'inline-block', padding: '0.3rem 0.8rem', borderRadius: '6px', backgroundColor: getStatusColor(server.status) + '22', color: getStatusColor(server.status), fontSize: '0.8rem', fontWeight: 'bold', textTransform: 'uppercase', border: `1px solid ${getStatusColor(server.status)}55` }}>
+                              {server.status === 'online' ? '🟢 ONLINE' : '🔴 OFFLINE'}
+                            </span>
+                          </td>
+                          <td style={{ padding: '1.2rem', fontWeight: '600', color: '#fff' }}>{server.name}</td>
+                          <td style={{ padding: '1.2rem', color: '#00eaff', fontFamily: 'monospace', fontSize: '0.9rem' }}>{server.ipAddress}</td>
+                          <td style={{ padding: '1.2rem', color: 'rgba(255, 255, 255, 0.8)' }}>{server.location}</td>
+                          <td style={{ padding: '1.2rem', textAlign: 'center' }}>
+                            <button onClick={() => setSelectedServer(server)} style={{ padding: '0.5rem 1rem', backgroundColor: 'rgba(0, 234, 255, 0.2)', border: '1px solid #00eaff', borderRadius: '6px', color: '#00eaff', fontWeight: '600', cursor: 'pointer', fontSize: '0.85rem', transition: 'all 0.3s ease' }} onMouseEnter={(e) => { e.currentTarget.style.backgroundColor = 'rgba(0, 234, 255, 0.4)'; e.currentTarget.style.transform = 'translateY(-2px)'; }} onMouseLeave={(e) => { e.currentTarget.style.backgroundColor = 'rgba(0, 234, 255, 0.2)'; e.currentTarget.style.transform = 'translateY(0)'; }}>View Details</button>
+                          </td>
+                        </motion.tr>
+                      ))}
 
-                    {/* Separator for PL1 / other networks */}
-                    {otherServers.length > 0 && (
-                      <tr>
-                        <td colSpan="5" style={{ padding: '0.5rem 1rem', textAlign: 'center' }}>
-                          <div style={{ height: '1px', background: 'rgba(255,255,255,0.08)', margin: '12px 0' }} />
-                          <strong style={{ color: 'rgba(255,255,255,0.8)' }}>PL1 / Other Servers</strong>
-                          <div style={{ height: '1px', background: 'rgba(255,255,255,0.08)', margin: '12px 0' }} />
-                        </td>
-                      </tr>
-                    )}
+                      {/* Separator for PL1 / other networks */}
+                      {otherServers.length > 0 && (
+                        <tr>
+                          <td colSpan="5" style={{ padding: '0.5rem 1rem', textAlign: 'center' }}>
+                            <div style={{ height: '1px', background: 'rgba(255,255,255,0.08)', margin: '12px 0' }} />
+                            <strong style={{ color: 'rgba(255,255,255,0.8)' }}>PL1 / Other Servers</strong>
+                            <div style={{ height: '1px', background: 'rgba(255,255,255,0.08)', margin: '12px 0' }} />
+                          </td>
+                        </tr>
+                      )}
 
-                    {/* Other servers (e.g., 172.21.80.x) */}
-                    {otherServers.map((server, idx) => (
-                      <motion.tr
-                        key={server.id}
-                        initial={{ opacity: 0, x: -20 }}
-                        animate={{ opacity: 1, x: 0 }}
-                        transition={{ delay: idx * 0.04 }}
-                        style={{ borderBottom: '1px solid rgba(0, 234, 255, 0.1)', transition: 'all 0.3s ease', backgroundColor: 'transparent' }}
-                        onMouseEnter={(e) => { e.currentTarget.style.backgroundColor = 'rgba(0, 234, 255, 0.08)'; }}
-                        onMouseLeave={(e) => { e.currentTarget.style.backgroundColor = 'transparent'; }}
-                      >
-                        <td style={{ padding: '1.2rem', fontWeight: '500' }}>
-                          <span style={{ display: 'inline-block', padding: '0.3rem 0.8rem', borderRadius: '6px', backgroundColor: getStatusColor(server.status) + '22', color: getStatusColor(server.status), fontSize: '0.8rem', fontWeight: 'bold', textTransform: 'uppercase', border: `1px solid ${getStatusColor(server.status)}55` }}>
-                            {server.status === 'online' ? '🟢 ONLINE' : '🔴 OFFLINE'}
-                          </span>
-                        </td>
-                        <td style={{ padding: '1.2rem', fontWeight: '600', color: '#fff' }}>{server.name}</td>
-                        <td style={{ padding: '1.2rem', color: '#00eaff', fontFamily: 'monospace', fontSize: '0.9rem' }}>{server.ipAddress}</td>
-                        <td style={{ padding: '1.2rem', color: 'rgba(255, 255, 255, 0.8)' }}>{server.location}</td>
-                        <td style={{ padding: '1.2rem', textAlign: 'center' }}>
-                          <button onClick={() => setSelectedServer(server)} style={{ padding: '0.5rem 1rem', backgroundColor: 'rgba(0, 234, 255, 0.2)', border: '1px solid #00eaff', borderRadius: '6px', color: '#00eaff', fontWeight: '600', cursor: 'pointer', fontSize: '0.85rem', transition: 'all 0.3s ease' }} onMouseEnter={(e) => { e.currentTarget.style.backgroundColor = 'rgba(0, 234, 255, 0.4)'; e.currentTarget.style.transform = 'translateY(-2px)'; }} onMouseLeave={(e) => { e.currentTarget.style.backgroundColor = 'rgba(0, 234, 255, 0.2)'; e.currentTarget.style.transform = 'translateY(0)'; }}>View Details</button>
-                        </td>
-                      </motion.tr>
-                    ))}
-                  </tbody>
-                </table>
-              </motion.div>
+                      {/* Other servers (e.g., 172.21.80.x) */}
+                      {otherServers.map((server, idx) => (
+                        <motion.tr
+                          key={server.id}
+                          initial={{ opacity: 0, x: -20 }}
+                          animate={{ opacity: 1, x: 0 }}
+                          transition={{ delay: idx * 0.04 }}
+                          style={{ borderBottom: '1px solid rgba(0, 234, 255, 0.1)', transition: 'all 0.3s ease', backgroundColor: 'transparent' }}
+                          onMouseEnter={(e) => { e.currentTarget.style.backgroundColor = 'rgba(0, 234, 255, 0.08)'; }}
+                          onMouseLeave={(e) => { e.currentTarget.style.backgroundColor = 'transparent'; }}
+                        >
+                          <td style={{ padding: '1.2rem', fontWeight: '500' }}>
+                            <span style={{ display: 'inline-block', padding: '0.3rem 0.8rem', borderRadius: '6px', backgroundColor: getStatusColor(server.status) + '22', color: getStatusColor(server.status), fontSize: '0.8rem', fontWeight: 'bold', textTransform: 'uppercase', border: `1px solid ${getStatusColor(server.status)}55` }}>
+                              {server.status === 'online' ? '🟢 ONLINE' : '🔴 OFFLINE'}
+                            </span>
+                          </td>
+                          <td style={{ padding: '1.2rem', fontWeight: '600', color: '#fff' }}>{server.name}</td>
+                          <td style={{ padding: '1.2rem', color: '#00eaff', fontFamily: 'monospace', fontSize: '0.9rem' }}>{server.ipAddress}</td>
+                          <td style={{ padding: '1.2rem', color: 'rgba(255, 255, 255, 0.8)' }}>{server.location}</td>
+                          <td style={{ padding: '1.2rem', textAlign: 'center' }}>
+                            <button onClick={() => setSelectedServer(server)} style={{ padding: '0.5rem 1rem', backgroundColor: 'rgba(0, 234, 255, 0.2)', border: '1px solid #00eaff', borderRadius: '6px', color: '#00eaff', fontWeight: '600', cursor: 'pointer', fontSize: '0.85rem', transition: 'all 0.3s ease' }} onMouseEnter={(e) => { e.currentTarget.style.backgroundColor = 'rgba(0, 234, 255, 0.4)'; e.currentTarget.style.transform = 'translateY(-2px)'; }} onMouseLeave={(e) => { e.currentTarget.style.backgroundColor = 'rgba(0, 234, 255, 0.2)'; e.currentTarget.style.transform = 'translateY(0)'; }}>View Details</button>
+                          </td>
+                        </motion.tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </motion.div>
+              )}
             </div>
 
             <footer className="footer">
-              <p>&copy; 2025 Automation Servers - Sharing Line. All rights reserved. | Server Management System</p>
+              <p>&copy; 2026 Automation Servers - Shearing Line. All rights reserved. | Duta Alamin</p>
             </footer>
           </div>
         </>

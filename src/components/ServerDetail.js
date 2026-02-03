@@ -340,7 +340,7 @@ const ServerDetail = ({ collection, onBack }) => {
         </div>
 
         <footer className="footer" style={{ marginTop: '3rem' }}>
-          <p>&copy; 2025 Automation Servers - Sharing Line. All rights reserved.</p>
+              <p>&copy; 2026 Automation Servers - Shearing Line. All rights reserved. | Duta Alamin</p>
         </footer>
       </div>
     </>

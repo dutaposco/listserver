@@ -115,15 +115,15 @@ function App() {
                 <table className="w-full text-left border-collapse">
                   <thead>
                     <tr className="bg-slate-50/80 border-b border-slate-200">
-                      <th className="px-3 py-2 text-[9px] font-bold text-slate-400 uppercase tracking-wider">Client</th>
+                      <th className="w-1/2 px-3 py-2 text-[9px] font-bold text-slate-400 uppercase tracking-wider">Client</th>
                       <th className="px-3 py-2 text-[9px] font-bold text-slate-400 uppercase tracking-wider">IP Address</th>
                     </tr>
                   </thead>
                   <tbody className="divide-y divide-slate-100">
                     {filteredServers.filter(s => s.category === cat).map((server) => (
                       <tr key={server.id} className="hover:bg-slate-50 transition-colors">
-                        <td className="px-3 py-2.5 text-xs font-bold text-slate-700">{server.name}</td>
-                        <td className="px-3 py-2.5 font-mono text-[11px] text-slate-400">{server.ipAddress}</td>
+                        <td className="w-1/2 px-3 py-2.5 text-xs font-bold text-slate-700">{server.name}</td>
+                        <td className="px-3 py-2.5 font-mono text-[11px] font-bold text-slate-600">{server.ipAddress}</td>
                       </tr>
                     ))}
                   </tbody>

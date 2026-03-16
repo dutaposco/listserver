@@ -63,8 +63,7 @@ const servers = [
   { id: 103, name: "PL1HSVR3", ipAddress: "172.21.80.203", location: "Data Center", status: "online", category: "DATA CENTER (PL1)" },
   { id: 104, name: "PL1HSVR4", ipAddress: "172.21.80.204", location: "Data Center", status: "backup", category: "DATA CENTER (PL1)" },
   { id: 111, name: "PL1PSVR1", ipAddress: "172.21.80.81", location: "Data Center", status: "online", category: "DATA CENTER (PL1)" },
-  { id: 112, name: "PL1PSVR1", ipAddress: "172.21.80.81", location: "Data Center", status: "online", category: "DATA CENTER (PL1)" }, // Fixing duplicate ID/name if any
-  { id: 1122, name: "PL1PSVR2", ipAddress: "172.21.80.82", location: "Data Center", status: "backup", category: "DATA CENTER (PL1)" },
+  { id: 112, name: "PL1PSVR2", ipAddress: "172.21.80.82", location: "Data Center", status: "backup", category: "DATA CENTER (PL1)" },
   { id: 113, name: "PL1PSVR3", ipAddress: "172.21.80.84", location: "Data Center", status: "online", category: "DATA CENTER (PL1)" },
   { id: 114, name: "PL1PSVR4", ipAddress: "172.21.80.85", location: "Data Center", status: "backup", category: "DATA CENTER (PL1)" },
   { id: 121, name: "WIN-LC7PL3SG9VN", ipAddress: "172.21.80.87", location: "Data Center", status: "online", category: "DATA CENTER (PL1)" },
